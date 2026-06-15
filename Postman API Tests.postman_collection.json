@@ -1,0 +1,244 @@
+{
+  "info": {
+    "_postman_id": "35cb7dd3-2fdc-40a2-a80b-76571ac51879",
+    "name": "Postman API Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "30378060"
+  },
+  "item": [
+    {
+      "name": "Listar usuários",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 200\", function () {\r",
+              "pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Tempo de resposta\", function () {\r",
+              "pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Retornou usuarios\", function () {\r",
+              "const usuarios = pm.response.json();\r",
+              "pm.expect(usuarios.length).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "pm.test (\"Primeiro usuário tem nome\", function(){\r",
+              "const usuarios = pm.response.json();\r",
+              "pm.expect(usuarios[0]).to.have.property( \"name\" );\r",
+              "})\r",
+              "\r",
+              "pm.test (\"Primeiro usuário tem e-mail\", function(){\r",
+              "const usuarios = pm.response.json();\r",
+              "pm.expect(usuarios[0]).to.have.property( \"email\" );\r",
+              "})"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Criar post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 201 - criado\", function () {\r",
+              " pm.response.to.have.status(201\r",
+              " );\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Meu primeiro post\", function(){\r",
+              "    const dados = pm.response.json()\r",
+              "pm.expect(dados.title). to.eql(\"Meu primeiro post\")\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n \"title\": \"Meu primeiro post\",\r\n \"body\": \"Estou aprendendo testes de API!\",\r\n \"userId\": 1\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/posts",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Validar nome usuário",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Nome correto\", function (){\r",
+              "    const dado = pm.response.json();\r",
+              "    pm.expect(dado.name). to.eql(\"Renata Silva\")\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Renata Silva\",\r\n    \"email\": \"renata@email.com\",\r\n    \"username\": \"renataqa\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Atualizar post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verifica status code\", function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "})\r",
+              "pm.test(\"Post atualizado corretamente\", function(){\r",
+              "    const postCorreto=pm.response.json();\r",
+              "    pm.expect(postCorreto.title).to.eql(\"Post atualizado\");\r",
+              "})"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"Post atualizado\",\r\n    \"body\": \"Agora aprendendo PUT!\",\r\n    \"userId\": 1\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/posts/1",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Deletar post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verifica se retornou status 200\", function(){\r",
+              "    pm.response.to.have.status(200);\r",
+              "})"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/posts/1",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
